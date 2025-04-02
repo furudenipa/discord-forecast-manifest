@@ -1,0 +1,26 @@
+apiVersion: batch/v1
+kind: CronJob
+metadata:
+  name: discord-forecast-job
+  namespace: forecast
+spec:
+  schedule: "0 14 * * *"
+  concurrencyPolicy: Forbid
+  jobTemplate:
+    spec:
+      template:
+        spec:
+          containers:
+            - name: forecast
+              image: registry.furudenipa.org/discord-forecast:v20250330.1
+              env:
+                - name: DISCORD_FORECAST_CHANNEL_ID
+                  valueFrom:
+                    secretKeyRef:
+                      name: discord-forecast-secret
+                      key: DISCORD_FORECAST_CHANNEL_ID
+                - name: DISCORD_FORECAST_BOT_TOKEN
+                  valueFrom:
+                    secretKeyRef:
+                      name: discord-forecast-secret
+                      key: DISCORD_FORECAST_BOT_TOKEN
