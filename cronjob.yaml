@@ -25,3 +25,5 @@ spec:
                       name: discord-forecast-secret
                       key: DISCORD_FORECAST_BOT_TOKEN
           restartPolicy: Never
+          imagePullSecrets:
+            - name: regcred
